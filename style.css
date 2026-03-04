@@ -1,0 +1,339 @@
+/* ===== ОСНОВА ===== */
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #000;
+    color: #fff;
+}
+
+header {
+    padding: 16px;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+/* ===== КАРТОЧКА ===== */
+.exercise {
+    background: rgba(20, 20, 20, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
+    margin: 20px auto;
+    padding: 22px;
+    border-radius: 24px;
+    max-width: 800px;
+
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+
+    color: white;
+}
+
+.exercise-name {
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+/* ===== СТРОКИ ===== */
+.weight-row {
+    display: grid;
+    grid-template-columns: 90px 1fr auto;
+    align-items: center;
+    gap: 8px;
+    margin: 6px 0;
+    font-size: 14px;
+}
+
+.weight-value {
+    font-weight: 600;
+}
+
+/* ===== КНОПКИ ДЕЙСТВИЙ ===== */
+.action-buttons {
+    display: flex;
+    gap: 6px;
+}
+
+.btn-ios {
+    border: none;
+    border-radius: 12px;
+    padding: 6px 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.btn-ios:active {
+    transform: scale(0.95);
+}
+
+/* +1 */
+.btn-ios-green {
+    background: rgba(52, 199, 89, 0.15);
+    color: #34c759;
+}
+
+/* +10 — контраст к фиолетовому */
+.btn-ios-contrast {
+    background: rgba(255, 149, 0, 0.15);
+    color: #ff9500;
+}
+
+/* −1 */
+.btn-ios-red {
+    background: rgba(255, 59, 48, 0.15);
+    color: #ff3b30;
+}
+
+/* ===== ОБЩИЕ КНОПКИ ===== */
+button {
+    border: none;
+    border-radius: 12px;
+    padding: 6px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* ФИОЛЕТОВАЯ ОСНОВА */
+.btn-main {
+    background: #8e8df5;
+    color: white;
+}
+
+.btn-main:hover {
+    filter: brightness(1.05);
+}
+
+.btn-secondary {
+    background: #e9e9ed;
+}
+
+/* ===== ПРОГРЕСС ===== */
+.reps {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #555;
+}
+
+/* ===== Glass Progress Bar ===== */
+
+.bar {
+    position: relative;
+    height: 6px;
+    background: #222;
+    border-radius: 100px;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.bar-fill {
+    position: relative;
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.35s cubic-bezier(.4, 0, .2, 1);
+}
+
+/* Блик сверху */
+.bar-fill::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 45%;
+    background: linear-gradient(to bottom,
+            rgba(255, 255, 255, 0.55),
+            rgba(255, 255, 255, 0.1),
+            transparent);
+    pointer-events: none;
+}
+
+/* ===== РЕДАКТОР ===== */
+.editor-block {
+    background: #111;
+    margin: 20px auto;
+    padding: 24px;
+    border-radius: 24px;
+    max-width: 800px;
+    border: 1px solid #222;
+    color: white;
+}
+
+.editor-block input {
+    width: 100%;
+    padding: 8px;
+    margin: 4px 0 10px;
+    font-size: 14px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+/* НАЗВАНИЕ — ЖИРНОЕ */
+.editor-block input[data-step^="name"] {
+    font-weight: 800;
+    font-size: 18px;
+}
+
+.editor-block input[type="number"] {
+    font-weight: 600;
+}
+
+.editor-block label {
+    font-size: 12px;
+    color: #777;
+}
+
+/* ===== ФОКУС ===== */
+input:focus,
+button:focus {
+    outline: none;
+    border-color: #a259ff;
+    box-shadow: 0 0 0 3px rgba(162, 89, 255, 0.25);
+}
+
+/* ===== Glow when complete ===== */
+
+.bar-complete {
+    box-shadow:
+        0 0 12px rgba(52, 199, 89, 0.6),
+        0 0 24px rgba(52, 199, 89, 0.4);
+    animation: glowPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+    0% {
+        box-shadow:
+            0 0 8px rgba(52, 199, 89, 0.5),
+            0 0 18px rgba(52, 199, 89, 0.3);
+    }
+
+    50% {
+        box-shadow:
+            0 0 18px rgba(52, 199, 89, 0.8),
+            0 0 30px rgba(52, 199, 89, 0.5);
+    }
+
+    100% {
+        box-shadow:
+            0 0 8px rgba(52, 199, 89, 0.5),
+            0 0 18px rgba(52, 199, 89, 0.3);
+    }
+}
+
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    max-width: 520px;
+    margin: 0 auto 20px auto;
+}
+
+.header-title {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.header-back {
+    background: none;
+    border: none;
+    color: #007aff;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.header-right button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+/* ===== Центрирование контента ===== */
+
+#screen-today,
+#screen-editor {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* Центрирование блока даты */
+.date-block {
+    text-align: center;
+}
+
+.date-block input {
+    margin-top: 6px;
+}
+
+/* ===== Центр верхней части ===== */
+
+.top-block {
+    max-width: 520px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.top-block button {
+    margin: 8px auto;
+    display: block;
+}
+
+/* ===== Apple Hero Style ===== */
+
+.top-block {
+    text-align: center;
+    margin-top: 60px;
+    margin-bottom: 60px;
+}
+
+.top-block h1 {
+    font-size: 56px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    letter-spacing: -1px;
+}
+
+.top-subtitle {
+    font-size: 22px;
+    color: #aaa;
+    margin-bottom: 35px;
+}
+
+.apple-btn-primary {
+    background: #0071e3;
+    color: white;
+    padding: 12px 28px;
+    border-radius: 30px;
+    font-size: 17px;
+    border: none;
+    margin: 8px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.apple-btn-primary:hover {
+    background: #0077ed;
+}
+
+.apple-btn-secondary {
+    background: transparent;
+    color: #2997ff;
+    padding: 12px 28px;
+    border-radius: 30px;
+    font-size: 17px;
+    border: 1px solid #2997ff;
+    margin: 8px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.apple-btn-secondary:hover {
+    background: rgba(41, 151, 255, 0.1);
+}
+
+body {
+    color: white;
+}
