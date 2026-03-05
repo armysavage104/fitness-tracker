@@ -6,8 +6,12 @@ self.addEventListener("install", event => {
             return cache.addAll([
                 "/",
                 "/index.html",
+                "/style.css",
                 "/app.js",
-                "/style.css"
+                "/storage.js",
+                "/manifest.json",
+                "/icons/icon-192.png",
+                "/icons/icon-512.png"
             ]);
         })
     );
