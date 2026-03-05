@@ -1,52 +1,31 @@
 <!DOCTYPE html>
 <html lang="ru">
 
-<!DOCTYPE html>
-<html lang="ru">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>Fitness Tracker</title>
+
     <link rel="stylesheet" href="style.css">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#2ecc71">
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0f0f0f">
+
+    <!-- iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Fitness">
-    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
+
+    <!-- Icons -->
+    <link rel="icon" href="/icons/icon-192.png">
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#0f0f0f">
 </head>
 
 <body>
 
-
-    <main id="screen-today"></main>
-    <main id="screen-editor" style="display:none;"></main>
-
-    <script type="module" src="app.js"></script>
-</body>
-
-</html>
-
-<body>
-
-    <header>
-
-        <button onclick="openEditor()">Редактор</button>
-    </header>
-
-    <main id="screen-today"></main>
-    <main id="screen-editor" style="display:none;"></main>
-
-    <script type="module" src="app.js"></script>
-</body>
-
-<body>
-
+    <!-- Кнопка редактора -->
     <button class="editor-btn" onclick="openEditor()">Редактор</button>
 
     <main id="screen-today"></main>
