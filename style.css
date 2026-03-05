@@ -337,3 +337,14 @@ button:focus {
 body {
     color: white;
 }
+
+.editor-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+
+    background: #eee;
+    border-radius: 20px;
+    padding: 6px 14px;
+}
