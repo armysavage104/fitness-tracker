@@ -1,6 +1,8 @@
-const CACHE = "fitness-cache-v2";
+const CACHE = "fitness-cache-v3";
 
 self.addEventListener("install", event => {
+    self.skipWaiting();
+
     event.waitUntil(
         caches.open(CACHE).then(cache => {
             return cache.addAll([
@@ -9,12 +11,25 @@ self.addEventListener("install", event => {
                 "/style.css",
                 "/app.js",
                 "/storage.js",
-                "/manifest.json",
-                "/icons/icon-192.png",
-                "/icons/icon-512.png"
+                "/manifest.json"
             ]);
         })
     );
+});
+
+self.addEventListener("activate", event => {
+
+    event.waitUntil(
+        caches.keys().then(keys => {
+            return Promise.all(
+                keys
+                    .filter(key => key !== CACHE)
+                    .map(key => caches.delete(key))
+            );
+        })
+    );
+
+    self.clients.claim();
 });
 
 self.addEventListener("fetch", event => {
