@@ -511,11 +511,7 @@ function renderToday() {
         if (!completed) {
             if (p.w0 > 0) rows += row("Без веса", "w0");
             if (p.w5 > 0) rows += row(ex.weight5 + " кг", "w5");
-            const weightLabel = new Date(currentDay.date) < new Date("2026-03-07")
-                ? "12 кг"
-                : "14 кг";
-
-            if (p.w12 > 0) rows += row(weightLabel, "w12");
+            if (p.w12 > 0) rows += row("14 кг", "w12");
         }
 
         list.innerHTML += `
