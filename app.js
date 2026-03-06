@@ -184,7 +184,7 @@ function renderEditor() {
                 </div>
 
                 ${(() => {
-                    const thirdWeight = new Date(currentDay.date) < new Date("2026-03-07")
+                    const thirdWeight = new Date(currentDay.date) < new Date("2026-03-05")
                         ? "12 кг"
                         : "14 кг";
 
@@ -902,9 +902,13 @@ async function openHistoryDay(date) {
 
         const totalDone = done.w0 + done.w5 + done.w12;
 
+        const thirdWeight = new Date(day.date) < new Date("2026-03-05")
+            ? "12 кг"
+            : "14 кг";
+
         const label12 = ex.name.toLowerCase().includes("пресс")
             ? "Боковые"
-            : "14 кг";
+            : thirdWeight;
 
         list.innerHTML += `
         <div style="
@@ -918,7 +922,7 @@ async function openHistoryDay(date) {
             <div style="margin-top:6px;">
                 ${p.w0 > 0 ? `Без веса: ${done.w0} / ${p.w0}<br>` : ""}
                 ${p.w5 > 0 ? `${ex.weight5} кг: ${done.w5} / ${p.w5}<br>` : ""}
-                ${p.w12 > 0 ? `${label12}: ${done.w12} / ${p.w12}<br>` : ""}
+                ${p.w12 > 0 ? `${thirdWeight}: ${done.w12} / ${p.w12}<br>` : ""}
             </div>
 
             <div style="margin-top:6px;font-weight:600;">
