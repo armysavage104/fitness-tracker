@@ -184,9 +184,7 @@ function renderEditor() {
                 </div>
 
                 ${(() => {
-                    const thirdWeight = new Date(currentDay.date) < new Date("2026-03-05")
-                        ? "12 кг"
-                        : "14 кг";
+                    const thirdWeight = "14 кг";
 
                     return `
     <div style="font-size:13px; color:#bbb; margin-top:6px;">
