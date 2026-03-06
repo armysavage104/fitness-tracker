@@ -186,7 +186,7 @@ function renderEditor() {
                 <div style="font-size:13px; color:#bbb; margin-top:6px;">
                     Без веса: ${done.w0}/${ex.plan.w0} |
                     ${ex.weight5} кг: ${done.w5}/${ex.plan.w5} |
-                    12 кг: ${done.w12}/${ex.plan.w12}
+                    14 кг: ${done.w12}/${ex.plan.w12}
                 </div>
 
                 ${status ? `
@@ -213,7 +213,7 @@ function renderEditor() {
 
             const thirdLabel = ex.name.toLowerCase().includes("пресс")
                 ? "Боковые"
-                : "12 кг";
+                : "14 кг";
 
             block.innerHTML = `
             <input data-step="name-${ex.id}"
@@ -240,15 +240,15 @@ function renderEditor() {
 
             <label>Средний вес</label>
             <div>
-                <button data-step="weight-${ex.id}"
-                    onkeydown="handleKey(event,'${ex.id}','weight')"
-                    onclick="setWeight(${i},5)"
-                    class="${ex.weight5 == 5 ? 'btn-main' : 'btn-secondary'}">5 кг</button>
+                <<button data-step="weight-${ex.id}"
+    onkeydown="handleKey(event,'${ex.id}','weight')"
+    onclick="setWeight(${i},7)"
+    class="${ex.weight5 == 7 ? 'btn-main' : 'btn-secondary'}">7 кг</button>
 
-                <button data-step="weight-${ex.id}"
-                    onkeydown="handleKey(event,'${ex.id}','weight')"
-                    onclick="setWeight(${i},7)"
-                    class="${ex.weight5 == 7 ? 'btn-main' : 'btn-secondary'}">7 кг</button>
+<button data-step="weight-${ex.id}"
+    onkeydown="handleKey(event,'${ex.id}','weight')"
+    onclick="setWeight(${i},10)"
+    class="${ex.weight5 == 10 ? 'btn-main' : 'btn-secondary'}">10 кг</button>
             </div>
 
             <input type="number"
@@ -368,8 +368,8 @@ function handleKey(e, id, step) {
 
         const ex = exercises.find(x => x.id === id);
 
-        if (e.key === "ArrowRight") ex.weight5 = 7;
-        if (e.key === "ArrowLeft") ex.weight5 = 5;
+        if (e.key === "ArrowRight") ex.weight5 = 10;
+        if (e.key === "ArrowLeft") ex.weight5 = 7;
 
         const buttons = block.querySelectorAll(
             `[data-step="weight-${id}"]`
@@ -503,7 +503,7 @@ function renderToday() {
         if (!completed) {
             if (p.w0 > 0) rows += row("Без веса", "w0");
             if (p.w5 > 0) rows += row(ex.weight5 + " кг", "w5");
-            if (p.w12 > 0) rows += row("12 кг", "w12");
+            if (p.w12 > 0) rows += row("14 кг", "w12");
         }
 
         list.innerHTML += `
@@ -892,7 +892,7 @@ async function openHistoryDay(date) {
 
         const label12 = ex.name.toLowerCase().includes("пресс")
             ? "Боковые"
-            : "12 кг";
+            : "14 кг";
 
         list.innerHTML += `
         <div style="
@@ -1023,7 +1023,7 @@ async function handleNameInput(i, id, value) {
 
     label.innerText = value.toLowerCase().includes("пресс")
         ? "Боковые"
-        : "12 кг";
+        : "14 кг";
 }
 function setHistoryDate(value) {
     historySelectedDate = value;
