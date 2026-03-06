@@ -183,11 +183,19 @@ function renderEditor() {
                     Прогресс: ${totalDone} / ${ex.plan.total}
                 </div>
 
-                <div style="font-size:13px; color:#bbb; margin-top:6px;">
-                    Без веса: ${done.w0}/${ex.plan.w0} |
-                    ${ex.weight5} кг: ${done.w5}/${ex.plan.w5} |
-                    14 кг: ${done.w12}/${ex.plan.w12}
-                </div>
+                ${(() => {
+                    const thirdWeight = new Date(currentDay.date) < new Date("2026-03-07")
+                        ? "12 кг"
+                        : "14 кг";
+
+                    return `
+    <div style="font-size:13px; color:#bbb; margin-top:6px;">
+        Без веса: ${done.w0}/${ex.plan.w0} |
+        ${ex.weight5} кг: ${done.w5}/${ex.plan.w5} |
+        ${thirdWeight}: ${done.w12}/${ex.plan.w12}
+    </div>
+    `;
+                })()}
 
                 ${status ? `
                     <div style="margin-top:10px; font-size:13px; color:${isDone ? '#4cd964' : '#ffcc00'};">
@@ -503,7 +511,11 @@ function renderToday() {
         if (!completed) {
             if (p.w0 > 0) rows += row("Без веса", "w0");
             if (p.w5 > 0) rows += row(ex.weight5 + " кг", "w5");
-            if (p.w12 > 0) rows += row("14 кг", "w12");
+            const weightLabel = new Date(currentDay.date) < new Date("2026-03-07")
+                ? "12 кг"
+                : "14 кг";
+
+            if (p.w12 > 0) rows += row(weightLabel, "w12");
         }
 
         list.innerHTML += `
