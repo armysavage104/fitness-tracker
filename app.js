@@ -596,9 +596,7 @@ async function addDone(id, key, delta) {
 
     await saveDay(currentDay);
 
-    // заново загружаем день из баз
-
-    renderToday();
+    renderToday();   // ← ДОБАВИТЬ ЭТУ СТРОКУ
 }
 
 // ======================
