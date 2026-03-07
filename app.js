@@ -428,7 +428,19 @@ function renderToday() {
     const sorted = currentDay.active
         .map(id => exercises.find(e => e.id === id))
         .filter(Boolean)
-        .reverse();
+        .sort((a, b) => {
+
+            const aDone = !!a.completedAt;
+            const bDone = !!b.completedAt;
+
+            // сначала незавершённые
+            if (aDone !== bDone) return aDone ? 1 : -1;
+
+            // среди завершённых — по времени выполнения
+            if (aDone && bDone) return a.completedAt - b.completedAt;
+
+            return 0;
+        });
 
     // проверяем завершены ли все
     const allCompleted =
