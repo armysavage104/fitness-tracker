@@ -509,7 +509,12 @@ function renderToday() {
         if (!completed) {
             if (p.w0 > 0) rows += row("Без веса", "w0");
             if (p.w5 > 0) rows += row(ex.weight5 + " кг", "w5");
-            if (p.w12 > 0) rows += row("14 кг", "w12");
+
+            const thirdLabel = ex.name.toLowerCase().includes("пресс")
+                ? "Боковые"
+                : "14 кг";
+
+            if (p.w12 > 0) rows += row(thirdLabel, "w12");
         }
 
         list.innerHTML += `
@@ -916,7 +921,7 @@ async function openHistoryDay(date) {
             <div style="margin-top:6px;">
                 ${p.w0 > 0 ? `Без веса: ${done.w0} / ${p.w0}<br>` : ""}
                 ${p.w5 > 0 ? `${ex.weight5} кг: ${done.w5} / ${p.w5}<br>` : ""}
-                ${p.w12 > 0 ? `${thirdWeight}: ${done.w12} / ${p.w12}<br>` : ""}
+                ${p.w12 > 0 ? `${label12}: ${done.w12} / ${p.w12}<br>` : ""}
             </div>
 
             <div style="margin-top:6px;font-weight:600;">
