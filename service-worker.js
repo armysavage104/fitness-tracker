@@ -1,4 +1,4 @@
-const CACHE = "fitness-cache-v7";
+const CACHE = "fitness-cache-v8";
 
 self.addEventListener("install", event => {
     self.skipWaiting();
@@ -6,12 +6,14 @@ self.addEventListener("install", event => {
     event.waitUntil(
         caches.open(CACHE).then(cache => {
             return cache.addAll([
-                "/style.css",
-                "/app.js",
-                "/storage.js",
-                "/manifest.json",
-                "/icons/icon-192.png",
-                "/icons/icon-512.png"
+                "./",
+                "./index.html",
+                "./style.css",
+                "./app.js",
+                "./storage.js",
+                "./manifest.json",
+                "./icons/icon-192.png",
+                "./icons/icon-512.png"
             ]);
         })
     );
@@ -19,13 +21,13 @@ self.addEventListener("install", event => {
 
 self.addEventListener("activate", event => {
     event.waitUntil(
-        caches.keys().then(keys => {
-            return Promise.all(
+        caches.keys().then(keys =>
+            Promise.all(
                 keys
                     .filter(key => key !== CACHE)
                     .map(key => caches.delete(key))
-            );
-        })
+            )
+        )
     );
 
     self.clients.claim();
@@ -33,15 +35,14 @@ self.addEventListener("activate", event => {
 
 self.addEventListener("fetch", event => {
 
-    // index.html всегда грузим с сервера
     if (event.request.mode === "navigate") {
-        event.respondWith(fetch(event.request));
+        event.respondWith(
+            fetch(event.request).catch(() => caches.match("./index.html"))
+        );
         return;
     }
 
     event.respondWith(
-        caches.match(event.request).then(res => {
-            return res || fetch(event.request);
-        })
+        caches.match(event.request).then(res => res || fetch(event.request))
     );
 });
