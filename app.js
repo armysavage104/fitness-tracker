@@ -13,8 +13,9 @@ let historySelectedDate = null;
 // ======================
 
 function todayISO() {
-    return new Date().toISOString().slice(0, 10);
+    return new Date().toLocaleDateString('en-CA');
 }
+
 
 function isExerciseCompleted(ex) {
     const done = currentDay.progress[ex.id] || { w0: 0, w5: 0, w12: 0 };
