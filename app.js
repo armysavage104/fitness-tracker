@@ -1,5 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import { initDB, saveDay, getDay, getAllDays } from "./storage.js";
+import { initDB, saveDay, saveDayLocal, getDay, getAllDays } from "./storage.js";
 
 const supabaseClient = createClient(
     "https://drxrxdnrlnmjrczoshww.supabase.co",
@@ -1179,20 +1179,13 @@ async function applyCloudDay(row) {
 
     const day = row.data;
 
-    const tx = db.transaction("days", "readwrite");
-    const store = tx.objectStore("days");
+    await saveDayLocal(day);
 
-    store.put(day);
-
-    tx.oncomplete = () => {
-
-        if (currentDay && currentDay.date === day.date) {
-            currentDay = day;
-            exercises = day.exercises;
-            renderToday();
-        }
-
-    };
+    if (currentDay && currentDay.date === day.date) {
+        currentDay = day;
+        exercises = day.exercises;
+        renderToday();
+    }
 
 }
 function startRealtimeSync() {

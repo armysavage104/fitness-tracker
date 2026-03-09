@@ -60,3 +60,12 @@ export function getAllDays() {
         req.onerror = () => reject();
     });
 }
+export function saveDayLocal(day) {
+    return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE, "readwrite");
+        const store = tx.objectStore(STORE);
+        store.put(day);
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => reject();
+    });
+}
