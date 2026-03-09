@@ -495,10 +495,6 @@ function renderToday() {
         Импорт истории
     </button>
 
-    <button onclick="reloadApp()" class="apple-btn-secondary">
-        Обновить
-    </button>
-
 </div>
 
         </div>
@@ -1178,15 +1174,7 @@ async function loadFromCloud() {
 
     console.log("Cloud sync completed");
 }
-async function reloadApp() {
 
-    await loadFromCloud();
-
-    renderToday();
-
-}
-
-window.reloadApp = reloadApp;
 async function applyCloudDay(row) {
 
     const day = row.data;
