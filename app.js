@@ -103,6 +103,7 @@ async function addExercise() {
 
     if (!historyMode) {
         await saveDay(currentDay);
+        await syncDay(currentDay);
     }
 
     renderEditor();
@@ -307,6 +308,7 @@ function renderEditor() {
 async function toggleCollapse(i) {
     exercises[i].collapsed = !exercises[i].collapsed;
     await saveDay(currentDay);
+    await syncDay(currentDay);
     renderEditor();
 }
 
@@ -331,11 +333,13 @@ async function updatePlan(i, key, value) {
     if (w12Input) w12Input.value = plan.w12;
 
     await saveDay(currentDay);
+    await syncDay(currentDay);
 }
 
 async function setWeight(i, weight) {
     exercises[i].weight5 = weight;
     await saveDay(currentDay);
+    await syncDay(currentDay);
     renderEditor();
 }
 
@@ -568,6 +572,7 @@ async function confirmAdd(id) {
     ex.collapsed = true;
 
     await saveDay(currentDay);
+    await syncDay(currentDay);
     renderEditor();
 }
 
@@ -596,6 +601,7 @@ async function addDone(id, key, delta) {
         ex.completedAt = null;
 
     await saveDay(currentDay);
+    await syncDay(currentDay);
 
     renderToday();   // ← ДОБАВИТЬ ЭТУ СТРОКУ
 }
@@ -644,6 +650,7 @@ async function toggleRestDay() {
     }
 
     await saveDay(currentDay);
+    await syncDay(currentDay);
     renderToday();
 }
 async function removeExercise(i) {
@@ -657,6 +664,7 @@ async function removeExercise(i) {
     exercises.splice(i, 1);
 
     await saveDay(currentDay);
+    await syncDay(currentDay);
     renderEditor();
 }
 async function openHistory() {
@@ -1035,27 +1043,13 @@ window.saveHistoryDay = saveHistoryDay;
 window.cancelHistoryMode = cancelHistoryMode;
 window.exportHistory = exportHistory;
 window.importHistory = importHistory;
-window.syncDayToCloud = async function (day) {
 
-    const { error } = await supabase
-        .from("days")
-        .upsert({
-            date: day.date,
-            data: day
-        });
-
-    if (error) {
-        console.error("Supabase sync error:", error);
-    } else {
-        console.log("Synced:", day.date);
-    }
-
-};
 
 async function handleNameInput(i, id, value) {
 
     exercises[i].name = value;
     await saveDay(currentDay);
+    await syncDay(currentDay);
 
     const block = document.querySelector(`[data-ex-id="${id}"]`);
     if (!block) return;
