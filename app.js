@@ -1178,8 +1178,12 @@ async function loadFromCloud() {
 
     console.log("Cloud sync completed");
 }
-function reloadApp() {
-    location.reload();
+async function reloadApp() {
+
+    await loadFromCloud();
+
+    renderToday();
+
 }
 
 window.reloadApp = reloadApp;
@@ -1187,13 +1191,20 @@ async function applyCloudDay(row) {
 
     const day = row.data;
 
-    await saveDay(day);
+    const tx = db.transaction("days", "readwrite");
+    const store = tx.objectStore("days");
 
-    if (currentDay && currentDay.date === day.date) {
-        currentDay = day;
-        exercises = day.exercises;
-        renderToday();
-    }
+    store.put(day);
+
+    tx.oncomplete = () => {
+
+        if (currentDay && currentDay.date === day.date) {
+            currentDay = day;
+            exercises = day.exercises;
+            renderToday();
+        }
+
+    };
 
 }
 function startRealtimeSync() {
