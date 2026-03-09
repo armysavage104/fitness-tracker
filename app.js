@@ -975,6 +975,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     await loadFromCloud();
 
+    startRealtimeSync();
+
     const today = todayISO();
     let day = await getDay(today);
 
@@ -1171,20 +1173,48 @@ async function loadFromCloud() {
     }
 
     for (const row of data) {
-
-        const local = await getDay(row.date);
-
-        if (!local) {
-            await saveDay(row.data);
-        }
-
+        await saveDay(row.data);
     }
 
     console.log("Cloud sync completed");
-
 }
 function reloadApp() {
     location.reload();
 }
 
 window.reloadApp = reloadApp;
+async function applyCloudDay(row) {
+
+    const day = row.data;
+
+    await saveDay(day);
+
+    if (currentDay && currentDay.date === day.date) {
+        currentDay = day;
+        exercises = day.exercises;
+        renderToday();
+    }
+
+}
+function startRealtimeSync() {
+
+    supabaseClient
+        .channel("days-sync")
+        .on(
+            "postgres_changes",
+            {
+                event: "*",
+                schema: "public",
+                table: "days"
+            },
+            payload => {
+
+                console.log("Realtime update:", payload);
+
+                applyCloudDay(payload.new);
+
+            }
+        )
+        .subscribe();
+
+}
