@@ -1,5 +1,5 @@
 import { initDB, saveDay, getDay, getAllDays } from "./storage.js";
-
+import supabase from "./supabase.js";
 // ======================
 // STATE
 // ======================
@@ -1035,6 +1035,22 @@ window.saveHistoryDay = saveHistoryDay;
 window.cancelHistoryMode = cancelHistoryMode;
 window.exportHistory = exportHistory;
 window.importHistory = importHistory;
+window.syncDayToCloud = async function (day) {
+
+    const { error } = await supabase
+        .from("days")
+        .upsert({
+            date: day.date,
+            data: day
+        });
+
+    if (error) {
+        console.error("Supabase sync error:", error);
+    } else {
+        console.log("Synced:", day.date);
+    }
+
+};
 
 async function handleNameInput(i, id, value) {
 
@@ -1101,4 +1117,20 @@ if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("service-worker.js")
             .then(() => console.log("Service Worker registered"));
     });
+}
+async function syncDay(day) {
+
+    const { error } = await supabase
+        .from("days")
+        .upsert({
+            date: day.date,
+            data: day
+        });
+
+    if (error) {
+        console.error("Supabase sync error:", error);
+    } else {
+        console.log("Synced with cloud:", day.date);
+    }
+
 }

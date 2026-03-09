@@ -29,7 +29,14 @@ export function saveDay(day) {
         const tx = db.transaction(STORE, "readwrite");
         const store = tx.objectStore(STORE);
         store.put(day);
-        tx.oncomplete = () => resolve();
+        tx.oncomplete = async () => {
+
+            if (window.syncDayToCloud) {
+                await window.syncDayToCloud(day);
+            }
+
+            resolve();
+        };
         tx.onerror = () => reject();
     });
 }
