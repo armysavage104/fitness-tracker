@@ -1208,11 +1208,8 @@ function startRealtimeSync() {
                 table: "days"
             },
             payload => {
-
                 console.log("Realtime update:", payload);
-
                 applyCloudDay(payload.new);
-
             }
         )
         .subscribe();
