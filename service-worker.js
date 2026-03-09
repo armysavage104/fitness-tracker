@@ -1,4 +1,4 @@
-const CACHE = "fitness-cache-v14";
+const CACHE = "fitness-cache-v15";
 
 self.addEventListener("install", event => {
     self.skipWaiting();
@@ -6,14 +6,14 @@ self.addEventListener("install", event => {
     event.waitUntil(
         caches.open(CACHE).then(cache => {
             return cache.addAll([
-                "./",
-                "./index.html",
-                "./style.css",
-                "./app.js",
-                "./storage.js",
-                "./manifest.json",
-                "./icons/icon-192.png",
-                "./icons/icon-512.png"
+                "/",
+                "/index.html",
+                "/style.css",
+                "/app.js",
+                "/storage.js",
+                "/manifest.json",
+                "/icons/icon-192.png",
+                "/icons/icon-512.png"
             ]);
         })
     );
