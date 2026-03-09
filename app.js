@@ -967,6 +967,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     await initDB();
 
+    await loadFromCloud();
+
     const today = todayISO();
     let day = await getDay(today);
 
@@ -1133,5 +1135,45 @@ async function syncDay(day) {
     } else {
         console.log("Synced with cloud:", day.date);
     }
+
+}
+window.syncDayToCloud = async function (day) {
+
+    const { error } = await supabaseClient
+        .from("days")
+        .upsert({
+            date: day.date,
+            data: day
+        });
+
+    if (error) {
+        console.error("Supabase sync error:", error);
+    } else {
+        console.log("Synced:", day.date);
+    }
+
+};
+async function loadFromCloud() {
+
+    const { data, error } = await supabaseClient
+        .from("days")
+        .select("*");
+
+    if (error) {
+        console.error("Cloud load error:", error);
+        return;
+    }
+
+    for (const row of data) {
+
+        const local = await getDay(row.date);
+
+        if (!local) {
+            await saveDay(row.data);
+        }
+
+    }
+
+    console.log("Cloud sync completed");
 
 }
