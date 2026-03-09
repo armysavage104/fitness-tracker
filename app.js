@@ -477,23 +477,29 @@ function renderToday() {
                 ? "Твоя тренировка сегодня выполнена"
                 : "Твоя тренировка сегодня"
         }
-            </div>
+            <div class="top-actions">
 
-            <div>
-                <button onclick="toggleRestDay()" class="apple-btn-primary">
-                    ${currentDay.isRestDay ? 'Отменить выходной' : 'Сегодня выходной'}
-                </button>
+    <button onclick="toggleRestDay()" class="apple-btn-primary">
+        ${currentDay.isRestDay ? 'Отменить выходной' : 'Сегодня выходной'}
+    </button>
 
-                <button onclick="openHistory()" class="apple-btn-secondary">
-                    История
-                </button>
-                <button onclick="exportHistory()" class="apple-btn-secondary">
-Экспорт истории
-</button>
-<button onclick="importHistory()" class="apple-btn-secondary">
-Импорт истории
-</button>
-            </div>
+    <button onclick="openHistory()" class="apple-btn-secondary">
+        История
+    </button>
+
+    <button onclick="exportHistory()" class="apple-btn-secondary">
+        Экспорт истории
+    </button>
+
+    <button onclick="importHistory()" class="apple-btn-secondary">
+        Импорт истории
+    </button>
+
+    <button onclick="reloadApp()" class="apple-btn-secondary">
+        Обновить
+    </button>
+
+</div>
 
         </div>
     `;
@@ -1177,3 +1183,8 @@ async function loadFromCloud() {
     console.log("Cloud sync completed");
 
 }
+function reloadApp() {
+    location.reload();
+}
+
+window.reloadApp = reloadApp;

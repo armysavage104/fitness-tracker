@@ -276,10 +276,10 @@ button:focus {
     text-align: center;
 }
 
-.top-block button {
+/* .top-block button {
     margin: 8px auto;
     display: block;
-}
+} */
 
 /* ===== Apple Hero Style ===== */
 
@@ -347,4 +347,12 @@ body {
     background: #eee;
     border-radius: 20px;
     padding: 6px 14px;
+}
+
+.top-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 20px;
 }
