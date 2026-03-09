@@ -1,5 +1,12 @@
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { initDB, saveDay, getDay, getAllDays } from "./storage.js";
-import supabase from "./supabase.js";
+
+const supabaseClient = createClient(
+    "https://drxrxdnrlnmjrczoshww.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRyeHJ4ZG5ybG5tanJjem9zaHd3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMwNTk2NTMsImV4cCI6MjA4ODYzNTY1M30.xt7IgeplSgxbED5dM8dqe2hxH0ydQp-SBtX1_ojHghs"
+);
+
+window.supabaseClient = supabaseClient;
 // ======================
 // STATE
 // ======================
@@ -1114,7 +1121,7 @@ if ("serviceWorker" in navigator) {
 }
 async function syncDay(day) {
 
-    const { error } = await supabase
+    const { error } = await supabaseClient
         .from("days")
         .upsert({
             date: day.date,
