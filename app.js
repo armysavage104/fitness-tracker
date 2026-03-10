@@ -35,13 +35,24 @@ function isExerciseCompleted(ex) {
         done.w12 >= p.w12
     );
 }
-
+function isTimeExercise(ex) {
+    return ex.name && ex.name.toLowerCase().includes("планка");
+}
 function clearZero(input) {
     if (input.value === "0") input.value = "";
 }
 
 function clearDefaultName(input) {
     if (input.value === "Новое упражнение") input.value = "";
+}
+function formatTime(sec) {
+
+    const m = Math.floor(sec / 60);
+    const s = sec % 60;
+
+    if (m === 0) return s + "с";
+
+    return m + "м " + (s < 10 ? "0" + s : s) + "с";
 }
 
 // theme
@@ -237,7 +248,9 @@ function renderEditor() {
                 oninput="handleNameInput(${i}, '${ex.id}', this.value)"
                 onkeydown="handleKey(event,'${ex.id}','name')">
 
-            <label>Всего повторений</label>
+            <label>
+${isTimeExercise(ex) ? "Время (сек)" : "Всего повторений"}
+</label>
             <input type="number"
                 data-step="total-${ex.id}"
                 value="${ex.plan.total}"
@@ -514,20 +527,37 @@ function renderToday() {
         const completed = isExerciseCompleted(ex);
 
         function row(label, key) {
+
+            const isTime = isTimeExercise(ex);
+
+            const plus1 = isTime ? 5 : 1;
+            const plus10 = isTime ? 10 : 10;
+
+            const label1 = isTime ? "+5с" : "+1";
+            const label10 = isTime ? "+10с" : "+10";
+            const labelMinus = isTime ? "−5с" : "−1";
+
             return `
-                <div class="weight-row">
-                    <div>${label}</div>
-                    <div>${done[key]} / ${p[key]}</div>
-                    <div class="action-buttons">
-                        <button class="btn-ios btn-ios-green"
-                            onclick="addDone('${ex.id}','${key}',1)">+1</button>
-                        <button class="btn-ios btn-ios-contrast"
-                            onclick="addDone('${ex.id}','${key}',10)">+10</button>
-                        <button class="btn-ios btn-ios-red"
-                            onclick="addDone('${ex.id}','${key}',-1)">−1</button>
-                    </div>
-                </div>
-            `;
+        <div class="weight-row">
+            <div>${label}</div>
+            <div>
+${isTimeExercise(ex)
+                    ? formatTime(done[key]) + " / " + formatTime(p[key])
+                    : done[key] + " / " + p[key]
+                }
+</div>
+            <div class="action-buttons">
+                <button class="btn-ios btn-ios-green"
+                    onclick="addDone('${ex.id}','${key}',${plus1})">${label1}</button>
+
+                <button class="btn-ios btn-ios-contrast"
+                    onclick="addDone('${ex.id}','${key}',${plus10})">${label10}</button>
+
+                <button class="btn-ios btn-ios-red"
+                    onclick="addDone('${ex.id}','${key}',-${plus1})">${labelMinus}</button>
+            </div>
+        </div>
+    `;
         }
 
         let rows = "";
@@ -547,7 +577,12 @@ function renderToday() {
             <div class="exercise">
                 <b>${ex.name}</b>
                 ${rows}
-                ${completed ? "" : `<div class="reps">${totalDone}/${p.total}</div>`}
+                ${completed ? "" : `<div class="reps">
+${isTimeExercise(ex)
+                    ? formatTime(totalDone) + " / " + formatTime(p.total)
+                    : totalDone + "/" + p.total
+                }
+</div>`}
                 <div class="bar">
                     <div class="bar-fill ${percent >= 1 ? 'bar-complete' : ''}"
                         style="
@@ -953,7 +988,10 @@ async function openHistoryDay(date) {
             </div>
 
             <div style="margin-top:6px;font-weight:600;">
-                Всего: ${totalDone} / ${p.total}
+                Всего: ${isTimeExercise(ex)
+                ? formatTime(totalDone) + " / " + formatTime(p.total)
+                : totalDone + " / " + p.total
+            }
             </div>
         </div>
     `;
