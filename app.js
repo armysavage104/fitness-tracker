@@ -36,7 +36,11 @@ function isExerciseCompleted(ex) {
     );
 }
 function isTimeExercise(ex) {
-    return ex.name && ex.name.toLowerCase().includes("планка");
+    if (!ex.name) return false;
+
+    const name = ex.name.toLowerCase();
+
+    return name.includes("планк");
 }
 function clearZero(input) {
     if (input.value === "0") input.value = "";
@@ -343,10 +347,21 @@ async function updatePlan(i, key, value) {
     const w0 = plan.w0 || 0;
     const w5 = plan.w5 || 0;
 
-    if (w0 + w5 > total) {
+    if (isTimeExercise(ex)) {
+
+        // для планки используем только одно поле
+        plan.w0 = total;
+        plan.w5 = 0;
         plan.w12 = 0;
+
     } else {
-        plan.w12 = total - w0 - w5;
+
+        if (w0 + w5 > total) {
+            plan.w12 = 0;
+        } else {
+            plan.w12 = total - w0 - w5;
+        }
+
     }
 
     const w12Input = document.querySelector(`[data-step="w12-${ex.id}"]`);
