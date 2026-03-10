@@ -533,9 +533,9 @@ function renderToday() {
             const plus1 = isTime ? 5 : 1;
             const plus10 = isTime ? 10 : 10;
 
-            const label1 = isTime ? "+5с" : "+1";
-            const label10 = isTime ? "+10с" : "+10";
-            const labelMinus = isTime ? "−5с" : "−1";
+            const label1 = isTime ? "+5" : "+1";
+            const label10 = isTime ? "+10" : "+10";
+            const labelMinus = isTime ? "−5" : "−1";
 
             return `
         <div class="weight-row">
@@ -563,14 +563,23 @@ ${isTimeExercise(ex)
         let rows = "";
 
         if (!completed) {
-            if (p.w0 > 0) rows += row("Без веса", "w0");
-            if (p.w5 > 0) rows += row(ex.weight5 + " кг", "w5");
 
-            const thirdLabel = ex.name.toLowerCase().includes("пресс")
-                ? "Боковые"
-                : "14 кг";
+            if (isTimeExercise(ex)) {
 
-            if (p.w12 > 0) rows += row(thirdLabel, "w12");
+                rows += row("Время", "w0");
+
+            } else {
+
+                if (p.w0 > 0) rows += row("Без веса", "w0");
+                if (p.w5 > 0) rows += row(ex.weight5 + " кг", "w5");
+
+                const thirdLabel = ex.name.toLowerCase().includes("пресс")
+                    ? "Боковые"
+                    : "14 кг";
+
+                if (p.w12 > 0) rows += row(thirdLabel, "w12");
+
+            }
         }
 
         list.innerHTML += `
