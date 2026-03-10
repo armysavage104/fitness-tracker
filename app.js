@@ -1111,6 +1111,8 @@ async function handleNameInput(i, id, value) {
     label.innerText = value.toLowerCase().includes("пресс")
         ? "Боковые"
         : "14 кг";
+
+    renderEditor();   // ← добавить
 }
 function setHistoryDate(value) {
     historySelectedDate = value;
