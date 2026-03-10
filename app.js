@@ -1099,20 +1099,29 @@ window.importHistory = importHistory;
 async function handleNameInput(i, id, value) {
 
     exercises[i].name = value;
+
     await saveDay(currentDay);
     await syncDay(currentDay);
 
     const block = document.querySelector(`[data-ex-id="${id}"]`);
     if (!block) return;
 
+    const isTime = value.toLowerCase().includes("планка");
+
+    // меняем label "Всего повторений" → "Время (сек)"
+    const totalLabel = block.querySelector(`label`);
+    if (totalLabel) {
+        totalLabel.innerText = isTime ? "Время (сек)" : "Всего повторений";
+    }
+
+    // оставляем старую логику для пресса
     const label = block.querySelector(".third-label");
-    if (!label) return;
+    if (label) {
+        label.innerText = value.toLowerCase().includes("пресс")
+            ? "Боковые"
+            : "14 кг";
+    }
 
-    label.innerText = value.toLowerCase().includes("пресс")
-        ? "Боковые"
-        : "14 кг";
-
-    renderEditor();   // ← добавить
 }
 function setHistoryDate(value) {
     historySelectedDate = value;
