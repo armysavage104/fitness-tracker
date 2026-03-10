@@ -463,23 +463,6 @@ async function setBand(i) {
 
     renderEditor();
 }
-async function setBand(i) {
-
-    const ex = exercises[i];
-
-    ex.band = true;
-
-    const total = ex.plan.total || 0;
-
-    ex.plan.w0 = total;
-    ex.plan.w5 = 0;
-    ex.plan.w12 = 0;
-
-    await saveDay(currentDay);
-    await syncDay(currentDay);
-
-    renderEditor();
-}
 
 // ======================
 // KEYBOARD
