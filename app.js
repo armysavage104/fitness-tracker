@@ -269,6 +269,23 @@ ${isTimeExercise(ex) ? "Время (сек)" : "Всего повторений"
                 onfocus="clearZero(this)"
                 onkeydown="handleKey(event,'${ex.id}','total')"
                 onchange="updatePlan(${i},'total',this.value)">
+<label>Тип выполнения</label>
+
+<div style="display:flex; gap:8px; margin-bottom:10px;">
+
+<button data-step="mode-${ex.id}"
+onclick="setBody(${i})"
+class="${!ex.band ? 'btn-main' : 'btn-secondary'}">
+Без веса
+</button>
+
+<button data-step="mode-${ex.id}"
+onclick="setBand(${i})"
+class="${ex.band ? 'btn-main' : 'btn-secondary'}">
+Резина
+</button>
+
+</div>
 <label>Тип нагрузки</label>
 
 <div style="display:flex; gap:8px; margin-bottom:10px;">
@@ -413,6 +430,33 @@ async function setWeight(i, weight) {
 
     exercises[i].band = false;
     exercises[i].weight5 = weight;
+
+    await saveDay(currentDay);
+    await syncDay(currentDay);
+
+    renderEditor();
+}
+async function setBody(i) {
+
+    exercises[i].band = false;
+
+    await saveDay(currentDay);
+    await syncDay(currentDay);
+
+    renderEditor();
+}
+
+async function setBand(i) {
+
+    const ex = exercises[i];
+
+    ex.band = true;
+
+    const total = ex.plan.total || 0;
+
+    ex.plan.w0 = total;
+    ex.plan.w5 = 0;
+    ex.plan.w12 = 0;
 
     await saveDay(currentDay);
     await syncDay(currentDay);
