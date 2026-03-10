@@ -36,11 +36,12 @@ function isExerciseCompleted(ex) {
     );
 }
 function isTimeExercise(ex) {
+
     if (!ex.name) return false;
 
-    const name = ex.name.toLowerCase();
+    const name = ex.name.toLowerCase().trim();
 
-    return name.includes("планк");
+    return name.startsWith("пл");
 }
 function clearZero(input) {
     if (input.value === "0") input.value = "";
