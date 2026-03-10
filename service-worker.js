@@ -1,4 +1,4 @@
-const CACHE = "fitness-cache-v16";
+const CACHE = "fitness-cache-v17";
 
 self.addEventListener("install", event => {
     self.skipWaiting();
@@ -37,7 +37,7 @@ self.addEventListener("fetch", event => {
 
     if (event.request.mode === "navigate") {
         event.respondWith(
-            fetch(event.request).catch(() => caches.match("./index.html"))
+            fetch(event.request).catch(() => caches.match("/index.html"))
         );
         return;
     }
