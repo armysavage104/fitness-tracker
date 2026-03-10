@@ -558,7 +558,9 @@ function renderToday() {
             <div>${label}</div>
             <div>
 ${isTimeExercise(ex)
-                    ? formatTime(done[key]) + " / " + formatTime(p[key])
+                    ? (done[key] === 0
+                        ? formatTime(p[key])
+                        : formatTime(done[key]) + " / " + formatTime(p[key]))
                     : done[key] + " / " + p[key]
                 }
 </div>
@@ -600,7 +602,7 @@ ${isTimeExercise(ex)
 
         list.innerHTML += `
             <div class="exercise">
-                <b>${ex.name}</b>
+                <b>${isTimeExercise(ex) ? "Планка" : ex.name}</b>
                 ${rows}
                 ${completed || isTimeExercise(ex) ? "" : `<div class="reps">
 ${totalDone}/${p.total}
@@ -1001,7 +1003,7 @@ async function openHistoryDay(date) {
             border:1px solid #eee;
             border-radius:12px;
         ">
-            <b>${ex.name}</b><br>
+            <b>${isTimeExercise(ex) ? "Планка" : ex.name}</b>
 
             <div style="margin-top:6px;">
                 ${p.w0 > 0 ? `Без веса: ${done.w0} / ${p.w0}<br>` : ""}
