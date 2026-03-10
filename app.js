@@ -118,6 +118,7 @@ async function addExercise() {
         name: "Новое упражнение",
         collapsed: false,
         weight5: 5,
+        band: false,
         completedAt: null,
         plan: { total: 0, w0: 0, w5: 0, w12: 0 }
     };
@@ -269,41 +270,61 @@ ${isTimeExercise(ex) ? "Время (сек)" : "Всего повторений"
                 onkeydown="handleKey(event,'${ex.id}','total')"
                 onchange="updatePlan(${i},'total',this.value)">
 
-            <label>Без веса</label>
-            <input type="number"
-                data-step="w0-${ex.id}"
-                value="${ex.plan.w0}"
-                onfocus="clearZero(this)"
-                onkeydown="handleKey(event,'${ex.id}','w0')"
-                onchange="updatePlan(${i},'w0',this.value)">
+            ${ex.band ? "" : `
+<label>Без веса</label>
+<input type="number"
+    data-step="w0-${ex.id}"
+    value="${ex.plan.w0}"
+    onfocus="clearZero(this)"
+    onkeydown="handleKey(event,'${ex.id}','w0')"
+    onchange="updatePlan(${i},'w0',this.value)">
+`}
 
-            <label>Средний вес</label>
-            <div>
-                <<button data-step="weight-${ex.id}"
+            <label>Тип нагрузки</label>
+
+<div style="display:flex; gap:8px;">
+
+<button data-step="weight-${ex.id}"
     onkeydown="handleKey(event,'${ex.id}','weight')"
     onclick="setWeight(${i},7)"
-    class="${ex.weight5 == 7 ? 'btn-main' : 'btn-secondary'}">7 кг</button>
+    class="${!ex.band && ex.weight5 == 7 ? 'btn-main' : 'btn-secondary'}">
+    7 кг
+</button>
 
 <button data-step="weight-${ex.id}"
     onkeydown="handleKey(event,'${ex.id}','weight')"
     onclick="setWeight(${i},10)"
-    class="${ex.weight5 == 10 ? 'btn-main' : 'btn-secondary'}">10 кг</button>
-            </div>
+    class="${!ex.band && ex.weight5 == 10 ? 'btn-main' : 'btn-secondary'}">
+    10 кг
+</button>
 
-            <input type="number"
-                data-step="w5-${ex.id}"
-                value="${ex.plan.w5}"
-                onfocus="clearZero(this)"
-                onkeydown="handleKey(event,'${ex.id}','w5')"
-                onchange="updatePlan(${i},'w5',this.value)">
+<button data-step="weight-${ex.id}"
+    onkeydown="handleKey(event,'${ex.id}','weight')"
+    onclick="setBand(${i})"
+    class="${ex.band ? 'btn-main' : 'btn-secondary'}">
+    Резина
+</button>
 
-            <label class="third-label">${thirdLabel}</label>
+</div>
 
-            <input type="number"
-                data-step="w12-${ex.id}"
-                value="${ex.plan.w12}"
-                readonly
-                style="background:#222; font-weight:600; color:white; border:none;">
+            ${ex.band ? "" : `
+<input type="number"
+    data-step="w5-${ex.id}"
+    value="${ex.plan.w5}"
+    onfocus="clearZero(this)"
+    onkeydown="handleKey(event,'${ex.id}','w5')"
+    onchange="updatePlan(${i},'w5',this.value)">
+`}
+
+            ${ex.band ? "" : `
+<label class="third-label">${thirdLabel}</label>
+
+<input type="number"
+    data-step="w12-${ex.id}"
+    value="${ex.plan.w12}"
+    readonly
+    style="background:#222; font-weight:600; color:white; border:none;">
+`}
 
             <div style="margin-top:20px; display:flex; justify-content:space-between; align-items:center;">
 
@@ -363,10 +384,20 @@ async function updatePlan(i, key, value) {
 
     } else {
 
-        if (w0 + w5 > total) {
+        if (ex.band) {
+
+            plan.w0 = total;
+            plan.w5 = 0;
             plan.w12 = 0;
+
         } else {
-            plan.w12 = total - w0 - w5;
+
+            if (w0 + w5 > total) {
+                plan.w12 = 0;
+            } else {
+                plan.w12 = total - w0 - w5;
+            }
+
         }
 
     }
@@ -379,9 +410,22 @@ async function updatePlan(i, key, value) {
 }
 
 async function setWeight(i, weight) {
+
+    exercises[i].band = false;
     exercises[i].weight5 = weight;
+
     await saveDay(currentDay);
     await syncDay(currentDay);
+
+    renderEditor();
+}
+async function setBand(i) {
+
+    exercises[i].band = true;
+
+    await saveDay(currentDay);
+    await syncDay(currentDay);
+
     renderEditor();
 }
 
@@ -441,6 +485,14 @@ function handleKey(e, id, step) {
     if (e.key === "Enter") {
 
         e.preventDefault();
+
+        const ex = exercises.find(x => x.id === id);
+
+        // если резина — сразу добавляем упражнение
+        if (ex.band && step === "total") {
+            confirmAdd(id);
+            return;
+        }
 
         if (step === "w5") {
             block.querySelector(`[data-step="add-${id}"]`)?.focus();
