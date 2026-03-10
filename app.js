@@ -601,11 +601,8 @@ ${isTimeExercise(ex)
             <div class="exercise">
                 <b>${ex.name}</b>
                 ${rows}
-                ${completed ? "" : `<div class="reps">
-${isTimeExercise(ex)
-                    ? formatTime(totalDone) + " / " + formatTime(p.total)
-                    : totalDone + "/" + p.total
-                }
+                ${completed || isTimeExercise(ex) ? "" : `<div class="reps">
+${totalDone}/${p.total}
 </div>`}
                 <div class="bar">
                     <div class="bar-fill ${percent >= 1 ? 'bar-complete' : ''}"
