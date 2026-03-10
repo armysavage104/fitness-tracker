@@ -201,24 +201,30 @@ function renderEditor() {
             <div>
 
                 <div style="font-size:20px; font-weight:600; margin-bottom:8px; color:white;">
-                    ${ex.name && ex.name.trim() !== "" ? ex.name : "Упражнение"}
+                    ${isTimeExercise(ex) ? "Планка" : (ex.name && ex.name.trim() !== "" ? ex.name : "Упражнение")}
                 </div>
 
-                <div style="font-size:14px; color:white;">
-                    Прогресс: ${totalDone} / ${ex.plan.total}
-                </div>
+                ${isTimeExercise(ex) ? `
+<div style="font-size:14px; color:white;">
+    Время: ${formatTime(ex.plan.total)}
+</div>
+` : `
+<div style="font-size:14px; color:white;">
+    Прогресс: ${totalDone} / ${ex.plan.total}
+</div>
 
-                ${(() => {
+${(() => {
                     const thirdWeight = "14 кг";
 
                     return `
-    <div style="font-size:13px; color:#bbb; margin-top:6px;">
-        Без веса: ${done.w0}/${ex.plan.w0} |
-        ${ex.weight5} кг: ${done.w5}/${ex.plan.w5} |
-        ${thirdWeight}: ${done.w12}/${ex.plan.w12}
-    </div>
-    `;
+<div style="font-size:13px; color:#bbb; margin-top:6px;">
+    Без веса: ${done.w0}/${ex.plan.w0} |
+    ${ex.weight5} кг: ${done.w5}/${ex.plan.w5} |
+    ${thirdWeight}: ${done.w12}/${ex.plan.w12}
+</div>
+`;
                 })()}
+`}
 
                 ${status ? `
                     <div style="margin-top:10px; font-size:13px; color:${isDone ? '#4cd964' : '#ffcc00'};">
