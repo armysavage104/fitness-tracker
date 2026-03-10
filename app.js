@@ -301,9 +301,7 @@ ${isTimeExercise(ex) ? "Время (сек)" : "Всего повторений"
 <button data-step="weight-${ex.id}"
     onkeydown="handleKey(event,'${ex.id}','weight')"
     onclick="setBand(${i})"
-    class="${ex.band ? 'btn-main' : 'btn-secondary'}">
-    Резина
-</button>
+    class="${ex.band ? 'btn-main' : 'btn-secondary'}">Резина</button>
 
 </div>
 
