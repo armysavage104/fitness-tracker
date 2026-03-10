@@ -1179,11 +1179,14 @@ async function applyCloudDay(row) {
 
     const day = row.data;
 
+    console.log("Cloud day applied:", day.date);   // ← добавить здесь
+
     await saveDayLocal(day);
 
     if (currentDay && currentDay.date === day.date) {
         currentDay = day;
         exercises = day.exercises;
+
         renderToday();
     }
 
