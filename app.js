@@ -286,32 +286,7 @@ class="${ex.band ? 'btn-main' : 'btn-secondary'}">
 </button>
 
 </div>
-<label>Тип нагрузки</label>
 
-<div style="display:flex; gap:8px; margin-bottom:10px;">
-
-<button data-step="weight-${ex.id}"
-    onkeydown="handleKey(event,'${ex.id}','weight')"
-    onclick="setWeight(${i},7)"
-    class="${!ex.band && ex.weight5 == 7 ? 'btn-main' : 'btn-secondary'}">
-    7 кг
-</button>
-
-<button data-step="weight-${ex.id}"
-    onkeydown="handleKey(event,'${ex.id}','weight')"
-    onclick="setWeight(${i},10)"
-    class="${!ex.band && ex.weight5 == 10 ? 'btn-main' : 'btn-secondary'}">
-    10 кг
-</button>
-
-<button data-step="weight-${ex.id}"
-    onkeydown="handleKey(event,'${ex.id}','weight')"
-    onclick="setBand(${i})"
-    class="${ex.band ? 'btn-main' : 'btn-secondary'}">
-    Резина
-</button>
-
-</div>
             ${ex.band ? "" : `
 <label>Без веса</label>
 <input type="number"
