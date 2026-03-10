@@ -269,20 +269,9 @@ ${isTimeExercise(ex) ? "Время (сек)" : "Всего повторений"
                 onfocus="clearZero(this)"
                 onkeydown="handleKey(event,'${ex.id}','total')"
                 onchange="updatePlan(${i},'total',this.value)">
+<label>Тип нагрузки</label>
 
-            ${ex.band ? "" : `
-<label>Без веса</label>
-<input type="number"
-    data-step="w0-${ex.id}"
-    value="${ex.plan.w0}"
-    onfocus="clearZero(this)"
-    onkeydown="handleKey(event,'${ex.id}','w0')"
-    onchange="updatePlan(${i},'w0',this.value)">
-`}
-
-            <label>Тип нагрузки</label>
-
-<div style="display:flex; gap:8px;">
+<div style="display:flex; gap:8px; margin-bottom:10px;">
 
 <button data-step="weight-${ex.id}"
     onkeydown="handleKey(event,'${ex.id}','weight')"
@@ -301,9 +290,22 @@ ${isTimeExercise(ex) ? "Время (сек)" : "Всего повторений"
 <button data-step="weight-${ex.id}"
     onkeydown="handleKey(event,'${ex.id}','weight')"
     onclick="setBand(${i})"
-    class="${ex.band ? 'btn-main' : 'btn-secondary'}">Резина</button>
+    class="${ex.band ? 'btn-main' : 'btn-secondary'}">
+    Резина
+</button>
 
 </div>
+            ${ex.band ? "" : `
+<label>Без веса</label>
+<input type="number"
+    data-step="w0-${ex.id}"
+    value="${ex.plan.w0}"
+    onfocus="clearZero(this)"
+    onkeydown="handleKey(event,'${ex.id}','w0')"
+    onchange="updatePlan(${i},'w0',this.value)">
+`}
+
+            
 
             ${ex.band ? "" : `
 <input type="number"
@@ -419,7 +421,15 @@ async function setWeight(i, weight) {
 }
 async function setBand(i) {
 
-    exercises[i].band = true;
+    const ex = exercises[i];
+
+    ex.band = true;
+
+    const total = ex.plan.total || 0;
+
+    ex.plan.w0 = total;
+    ex.plan.w5 = 0;
+    ex.plan.w12 = 0;
 
     await saveDay(currentDay);
     await syncDay(currentDay);
