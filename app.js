@@ -274,14 +274,16 @@ ${isTimeExercise(ex) ? "Время (сек)" : "Всего повторений"
 <div style="display:flex; gap:8px; margin-bottom:10px;">
 
 <button data-step="mode-${ex.id}"
+onkeydown="handleKey(event,'${ex.id}','mode')"
 onclick="setBody(${i})"
 class="${!ex.band ? 'btn-main' : 'btn-secondary'}">
 Без веса
 </button>
 
 <button data-step="mode-${ex.id}"
-onclick="setBand(${i})"
-class="${ex.band ? 'btn-main' : 'btn-secondary'}">
+    onkeydown="handleKey(event,'${ex.id}','mode')"
+    onclick="setBandMode(${i})"
+    class="${ex.band ? 'btn-main' : 'btn-secondary'}">
 Резина
 </button>
 
@@ -429,6 +431,23 @@ async function setWeight(i, weight) {
 async function setBody(i) {
 
     exercises[i].band = false;
+
+    await saveDay(currentDay);
+    await syncDay(currentDay);
+
+    renderEditor();
+}
+async function setBandMode(i) {
+
+    const ex = exercises[i];
+
+    ex.band = true;
+
+    const total = ex.plan.total || 0;
+
+    ex.plan.w0 = total;
+    ex.plan.w5 = 0;
+    ex.plan.w12 = 0;
 
     await saveDay(currentDay);
     await syncDay(currentDay);

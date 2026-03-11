@@ -1,4 +1,4 @@
-const CACHE = "fitness-cache-v34";
+const CACHE = "fitness-cache-v35";
 
 self.addEventListener("install", event => {
     self.skipWaiting();
