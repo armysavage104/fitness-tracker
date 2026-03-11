@@ -409,10 +409,20 @@ async function updatePlan(i, key, value) {
 
             } else {
 
-                if (w0 + w5 > total) {
+                if (ex.band) {
+
+                    plan.w0 = total;
+                    plan.w5 = 0;
                     plan.w12 = 0;
+
                 } else {
-                    plan.w12 = total - w0 - w5;
+
+                    if (w0 + w5 > total) {
+                        plan.w12 = 0;
+                    } else {
+                        plan.w12 = total - w0 - w5;
+                    }
+
                 }
 
             }
@@ -444,6 +454,10 @@ function toggleMode(i, band) {
     if (!ex) return;
 
     ex.band = band;
+    if (band) {
+        const block = document.querySelector(`[data-ex-id="${ex.id}"]`);
+        block?.querySelector(`[data-step="add-${ex.id}"]`)?.focus();
+    }
     if (band) {
 
         const total = ex.plan.total || 0;
@@ -749,7 +763,11 @@ ${isTimeExercise(ex)
             } else {
 
                 if (p.w0 > 0) rows += row("Без веса", "w0");
-                if (p.w5 > 0) rows += row(ex.weight5 + " кг", "w5");
+                if (ex.band) {
+                    rows += row("Резина", "w0");
+                } else {
+                    if (p.w5 > 0) rows += row(ex.weight5 + " кг", "w5");
+                }
 
                 const thirdLabel = ex.name.toLowerCase().includes("пресс")
                     ? "Боковые"
@@ -794,9 +812,16 @@ async function confirmAdd(id) {
         currentDay.progress[id] = { w0: 0, w5: 0, w12: 0 };
 
     const ex = exercises.find(x => x.id === id);
+
+    if (ex.band) {
+        const total = ex.plan.total || 0;
+        currentDay.progress[id] = { w0: total, w5: 0, w12: 0 };
+    }
+
     if (!ex.name || ex.name.trim() === "") {
         ex.name = "Упражнение";
     }
+
     ex.collapsed = true;
 
     await saveDay(currentDay);
