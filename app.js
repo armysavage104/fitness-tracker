@@ -564,24 +564,9 @@ function handleKey(e, id, step) {
         e.preventDefault();
 
         const ex = exercises.find(x => x.id === id);
+        const index = exercises.findIndex(x => x.id === id);
 
-        ex.band = !ex.band;
-
-        const buttons = block.querySelectorAll(
-            `[data-step="mode-${id}"]`
-        );
-
-        buttons.forEach(btn => {
-
-            const isBand = btn.innerText.includes("Резина");
-            const active = (isBand && ex.band) || (!isBand && !ex.band);
-
-            btn.classList.toggle("btn-main", active);
-            btn.classList.toggle("btn-secondary", !active);
-
-        });
-
-        saveDay(currentDay);
+        toggleMode(index, !ex.band);
 
         return;
     }
