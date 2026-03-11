@@ -490,50 +490,6 @@ async function setMode(i, band) {
 
     renderEditor();
 }
-async function setBody(i) {
-
-    exercises[i].band = false;
-
-    await saveDay(currentDay);
-    await syncDay(currentDay);
-
-    renderEditor();
-}
-async function setBandMode(i) {
-
-    const ex = exercises[i];
-
-    ex.band = true;
-
-    const total = ex.plan.total || 0;
-
-    ex.plan.w0 = total;
-    ex.plan.w5 = 0;
-    ex.plan.w12 = 0;
-
-    await saveDay(currentDay);
-    await syncDay(currentDay);
-
-    renderEditor();
-}
-
-async function setBand(i) {
-
-    const ex = exercises[i];
-
-    ex.band = true;
-
-    const total = ex.plan.total || 0;
-
-    ex.plan.w0 = total;
-    ex.plan.w5 = 0;
-    ex.plan.w12 = 0;
-
-    await saveDay(currentDay);
-    await syncDay(currentDay);
-
-    renderEditor();
-}
 
 // ======================
 // KEYBOARD
@@ -1322,6 +1278,7 @@ window.saveHistoryDay = saveHistoryDay;
 window.cancelHistoryMode = cancelHistoryMode;
 window.exportHistory = exportHistory;
 window.importHistory = importHistory;
+window.toggleMode = toggleMode;
 
 
 function handleNameInput(i, id) {
