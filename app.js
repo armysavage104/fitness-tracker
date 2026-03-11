@@ -215,6 +215,15 @@ function renderEditor() {
 </div>
 
 ${(() => {
+
+                    if (ex.band) {
+                        return `
+<div style="font-size:13px; color:#bbb; margin-top:6px;">
+    Резина: ${done.w0}/${ex.plan.w0}
+</div>
+`;
+                    }
+
                     const thirdWeight = "14 кг";
 
                     return `
@@ -224,6 +233,7 @@ ${(() => {
     ${thirdWeight}: ${done.w12}/${ex.plan.w12}
 </div>
 `;
+
                 })()}
 `}
 
