@@ -506,6 +506,8 @@ function toggleMode(i, band) {
     });
 
     saveDay(currentDay);
+
+    renderEditor();
 }
 async function setMode(i, band) {
 
