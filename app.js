@@ -768,7 +768,15 @@ ${isTimeExercise(ex)
 
             } else {
 
-                if (p.w0 > 0) rows += row("Без веса", "w0");
+                if (p.w0 > 0) {
+
+                    if (ex.band) {
+                        rows += row("Резина", "w0");
+                    } else {
+                        rows += row("Без веса", "w0");
+                    }
+
+                }
                 if (ex.band) {
                     rows += row("Резина", "w0");
                 } else {
