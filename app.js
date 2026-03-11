@@ -1253,15 +1253,12 @@ window.exportHistory = exportHistory;
 window.importHistory = importHistory;
 
 
-async function handleNameInput(i, id) {
+function handleNameInput(i, id) {
 
     const input = document.querySelector(`[data-step="name-${id}"]`);
     const value = input.value;
 
     exercises[i].name = value;
-
-    await saveDay(currentDay);
-    await syncDay(currentDay);
 
     const block = document.querySelector(`[data-ex-id="${id}"]`);
     if (!block) return;
