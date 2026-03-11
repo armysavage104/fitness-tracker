@@ -474,6 +474,23 @@ function toggleMode(i, band) {
     }
 
     const block = document.querySelector(`[data-ex-id="${ex.id}"]`);
+    const w0 = block.querySelector(`[data-step="w0-${ex.id}"]`)?.closest("label")?.parentElement;
+    const w5 = block.querySelector(`[data-step="w5-${ex.id}"]`)?.parentElement;
+    const w12 = block.querySelector(`[data-step="w12-${ex.id}"]`)?.parentElement;
+
+    if (band) {
+
+        if (w0) w0.style.display = "none";
+        if (w5) w5.style.display = "none";
+        if (w12) w12.style.display = "none";
+
+    } else {
+
+        if (w0) w0.style.display = "";
+        if (w5) w5.style.display = "";
+        if (w12) w12.style.display = "";
+
+    }
     if (!block) return;
 
     const buttons = block.querySelectorAll(`[data-step="mode-${ex.id}"]`);
