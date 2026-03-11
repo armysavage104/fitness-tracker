@@ -766,32 +766,20 @@ ${isTimeExercise(ex)
 
                 rows += row("Время", "w0");
 
+            } else if (ex.band) {
+
+                rows += row("Резина", "w0");
+
             } else {
 
-                if (p.w0 > 0) {
-
-                    if (ex.band) {
-                        rows += row("Резина", "w0");
-                    } else {
-                        rows += row("Без веса", "w0");
-                    }
-
-                }
-                if (ex.band) {
-                    rows += row("Резина", "w0");
-                } else {
-                    if (ex.band) {
-                        rows += row("Резина", "w0");
-                    } else {
-                        if (p.w5 > 0) rows += row(ex.weight5 + " кг", "w5");
-                    }
-                }
+                if (p.w0 > 0) rows += row("Без веса", "w0");
+                if (p.w5 > 0) rows += row(ex.weight5 + " кг", "w5");
 
                 const thirdLabel = ex.name.toLowerCase().includes("пресс")
                     ? "Боковые"
                     : "14 кг";
 
-                if (!ex.band && p.w12 > 0) rows += row(thirdLabel, "w12");
+                if (p.w12 > 0) rows += row(thirdLabel, "w12");
 
             }
         }
