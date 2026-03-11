@@ -508,6 +508,13 @@ function toggleMode(i, band) {
     saveDay(currentDay);
 
     renderEditor();
+
+    setTimeout(() => {
+        const ex = exercises[i];
+        document
+            .querySelector(`[data-step="add-${ex.id}"]`)
+            ?.focus();
+    }, 0);
 }
 async function setMode(i, band) {
 
