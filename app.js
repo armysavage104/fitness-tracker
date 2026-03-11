@@ -275,14 +275,14 @@ ${isTimeExercise(ex) ? "Время (сек)" : "Всего повторений"
 
 <button data-step="mode-${ex.id}"
     onkeydown="handleKey(event,'${ex.id}','mode')"
-    onclick="setMode(${i}, false)"
+    onclick="toggleMode('${ex.id}', false)"
     class="${!ex.band ? 'btn-main' : 'btn-secondary'}">
 Без веса
 </button>
 
 <button data-step="mode-${ex.id}"
     onkeydown="handleKey(event,'${ex.id}','mode')"
-    onclick="setMode(${i}, true)"
+    onclick="toggleMode('${ex.id}', true)"
     class="${ex.band ? 'btn-main' : 'btn-secondary'}">
 Резина
 </button>
@@ -427,6 +427,30 @@ async function setWeight(i, weight) {
     await syncDay(currentDay);
 
     renderEditor();
+}
+function toggleMode(id, band) {
+
+    const ex = exercises.find(x => x.id === id);
+    if (!ex) return;
+
+    ex.band = band;
+
+    const block = document.querySelector(`[data-ex-id="${id}"]`);
+    if (!block) return;
+
+    const buttons = block.querySelectorAll(`[data-step="mode-${id}"]`);
+
+    buttons.forEach(btn => {
+
+        const isBand = btn.innerText.includes("Резина");
+        const active = (isBand && band) || (!isBand && !band);
+
+        btn.classList.toggle("btn-main", active);
+        btn.classList.toggle("btn-secondary", !active);
+
+    });
+
+    saveDay(currentDay);
 }
 async function setMode(i, band) {
 
