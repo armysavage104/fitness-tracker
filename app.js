@@ -791,7 +791,7 @@ ${isTimeExercise(ex)
                     ? "Боковые"
                     : "14 кг";
 
-                if (p.w12 > 0) rows += row(thirdLabel, "w12");
+                if (!ex.band && p.w12 > 0) rows += row(thirdLabel, "w12");
 
             }
         }
