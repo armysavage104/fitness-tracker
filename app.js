@@ -555,7 +555,16 @@ function handleKey(e, id, step) {
     if (e.key === "Enter") {
 
         e.preventDefault();
+        if (step === "name") {
 
+            const input = block.querySelector(`[data-step="name-${id}"]`);
+            const ex = exercises.find(x => x.id === id);
+
+            if (input && ex) {
+                ex.name = input.value;
+            }
+
+        }
         const ex = exercises.find(x => x.id === id);
 
         // если резина — сразу добавляем упражнение
