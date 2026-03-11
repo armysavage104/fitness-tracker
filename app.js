@@ -460,7 +460,7 @@ async function setBand(i) {
 
 function handleKey(e, id, step) {
 
-    const order = ["name", "total", "w0", "weight", "w5", "add", "collapse"];
+    const order = ["name", "total", "mode", "w0", "weight", "w5", "add", "collapse"];
 
     const block = document.querySelector(`[data-ex-id="${id}"]`);
     if (!block) return;
@@ -482,7 +482,33 @@ function handleKey(e, id, step) {
         if (nextElement) nextElement.focus();
         return;
     }
+    if (step === "mode" &&
+        (e.key === "ArrowLeft" || e.key === "ArrowRight")) {
 
+        e.preventDefault();
+
+        const ex = exercises.find(x => x.id === id);
+
+        ex.band = !ex.band;
+
+        const buttons = block.querySelectorAll(
+            `[data-step="mode-${id}"]`
+        );
+
+        buttons.forEach(btn => {
+
+            const isBand = btn.innerText.includes("Резина");
+            const active = (isBand && ex.band) || (!isBand && !ex.band);
+
+            btn.classList.toggle("btn-main", active);
+            btn.classList.toggle("btn-secondary", !active);
+
+        });
+
+        saveDay(currentDay);
+
+        return;
+    }
     if (step === "weight" &&
         (e.key === "ArrowLeft" || e.key === "ArrowRight")) {
 
