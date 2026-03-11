@@ -288,6 +288,7 @@ class="${ex.band ? 'btn-main' : 'btn-secondary'}">
 </div>
 
             ${ex.band ? "" : `
+
 <label>Без веса</label>
 <input type="number"
     data-step="w0-${ex.id}"
@@ -295,20 +296,33 @@ class="${ex.band ? 'btn-main' : 'btn-secondary'}">
     onfocus="clearZero(this)"
     onkeydown="handleKey(event,'${ex.id}','w0')"
     onchange="updatePlan(${i},'w0',this.value)">
-`}
 
-            
+<label>Средний вес</label>
+<div>
 
-            ${ex.band ? "" : `
+<button data-step="weight-${ex.id}"
+    onkeydown="handleKey(event,'${ex.id}','weight')"
+    onclick="setWeight(${i},7)"
+    class="${ex.weight5 == 7 ? 'btn-main' : 'btn-secondary'}">
+7 кг
+</button>
+
+<button data-step="weight-${ex.id}"
+    onkeydown="handleKey(event,'${ex.id}','weight')"
+    onclick="setWeight(${i},10)"
+    class="${ex.weight5 == 10 ? 'btn-main' : 'btn-secondary'}">
+10 кг
+</button>
+
+</div>
+
 <input type="number"
     data-step="w5-${ex.id}"
     value="${ex.plan.w5}"
     onfocus="clearZero(this)"
     onkeydown="handleKey(event,'${ex.id}','w5')"
     onchange="updatePlan(${i},'w5',this.value)">
-`}
 
-            ${ex.band ? "" : `
 <label class="third-label">${thirdLabel}</label>
 
 <input type="number"
@@ -316,6 +330,7 @@ class="${ex.band ? 'btn-main' : 'btn-secondary'}">
     value="${ex.plan.w12}"
     readonly
     style="background:#222; font-weight:600; color:white; border:none;">
+
 `}
 
             <div style="margin-top:20px; display:flex; justify-content:space-between; align-items:center;">
@@ -500,7 +515,7 @@ function handleKey(e, id, step) {
 
         // если резина — сразу добавляем упражнение
         if (ex.band && step === "total") {
-            confirmAdd(id);
+            block.querySelector(`[data-step="add-${id}"]`)?.focus();
             return;
         }
 
@@ -515,7 +530,12 @@ function handleKey(e, id, step) {
         }
 
         const index = order.indexOf(step);
-        const next = order[index + 1];
+        let next = order[index + 1];
+
+        if (ex.band && (next === "w0" || next === "weight" || next === "w5")) {
+            next = "add";
+        }
+
         if (!next) return;
 
         block.querySelector(`[data-step="${next}-${id}"]`)?.focus();
