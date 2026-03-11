@@ -822,10 +822,12 @@ async function confirmAdd(id) {
         currentDay.progress[id] = { w0: 0, w5: 0, w12: 0 };
 
     const ex = exercises.find(x => x.id === id);
-
     if (ex.band) {
         const total = ex.plan.total || 0;
-        currentDay.progress[id] = { w0: total, w5: 0, w12: 0 };
+
+        ex.plan.w0 = total;
+        ex.plan.w5 = 0;
+        ex.plan.w12 = 0;
     }
 
     if (!ex.name || ex.name.trim() === "") {
