@@ -275,14 +275,14 @@ ${isTimeExercise(ex) ? "Время (сек)" : "Всего повторений"
 
 <button data-step="mode-${ex.id}"
     onkeydown="handleKey(event,'${ex.id}','mode')"
-    onclick="toggleMode('${ex.id}', false)"
+    onclick="toggleMode(${i}, false)"
     class="${!ex.band ? 'btn-main' : 'btn-secondary'}">
 Без веса
 </button>
 
 <button data-step="mode-${ex.id}"
     onkeydown="handleKey(event,'${ex.id}','mode')"
-    onclick="toggleMode('${ex.id}', true)"
+    onclick="toggleMode(${i}, true)"
     class="${ex.band ? 'btn-main' : 'btn-secondary'}">
 Резина
 </button>
@@ -428,17 +428,17 @@ async function setWeight(i, weight) {
 
     renderEditor();
 }
-function toggleMode(id, band) {
+function toggleMode(i, band) {
 
-    const ex = exercises.find(x => x.id === id);
+    const ex = exercises[i];
     if (!ex) return;
 
     ex.band = band;
 
-    const block = document.querySelector(`[data-ex-id="${id}"]`);
+    const block = document.querySelector(`[data-ex-id="${ex.id}"]`);
     if (!block) return;
 
-    const buttons = block.querySelectorAll(`[data-step="mode-${id}"]`);
+    const buttons = block.querySelectorAll(`[data-step="mode-${ex.id}"]`);
 
     buttons.forEach(btn => {
 
