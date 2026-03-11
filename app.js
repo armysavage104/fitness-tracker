@@ -257,7 +257,7 @@ ${(() => {
             <input data-step="name-${ex.id}"
                 value="${ex.name}"
                 onfocus="clearDefaultName(this)"
-                oninput="handleNameInput(${i}, '${ex.id}', this.value)"
+                oninput="handleNameInput(${i}, '${ex.id}')"
                 onkeydown="handleKey(event,'${ex.id}','name')">
 
             <label>
@@ -1253,7 +1253,10 @@ window.exportHistory = exportHistory;
 window.importHistory = importHistory;
 
 
-async function handleNameInput(i, id, value) {
+async function handleNameInput(i, id) {
+
+    const input = document.querySelector(`[data-step="name-${id}"]`);
+    const value = input.value;
 
     exercises[i].name = value;
 
@@ -1265,13 +1268,11 @@ async function handleNameInput(i, id, value) {
 
     const isTime = value.toLowerCase().includes("планка");
 
-    // меняем label "Всего повторений" → "Время (сек)"
     const totalLabel = block.querySelector(`label`);
     if (totalLabel) {
         totalLabel.innerText = isTime ? "Время (сек)" : "Всего повторений";
     }
 
-    // оставляем старую логику для пресса
     const label = block.querySelector(".third-label");
     if (label) {
         label.innerText = value.toLowerCase().includes("пресс")
