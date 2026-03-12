@@ -1394,17 +1394,51 @@ async function importHistory() {
         const text = await file.text();
         const data = JSON.parse(text);
 
-        for (const day of data) {
-            await saveDay(day);
+        let added = 0;
+        let updated = 0;
+        let skipped = 0;
+
+        for (const importedDay of data) {
+
+            const existingDay = await getDay(importedDay.date);
+
+            // если дня нет — добавляем
+            if (!existingDay) {
+
+                await saveDay(importedDay);
+                added++;
+                continue;
+            }
+
+            const existingCount = Object.keys(existingDay.progress || {}).length;
+            const importedCount = Object.keys(importedDay.progress || {}).length;
+
+            // если импорт содержит больше данных — обновляем
+            if (importedCount > existingCount) {
+
+                await saveDay(importedDay);
+                updated++;
+
+            } else {
+
+                skipped++;
+
+            }
         }
 
-        alert("История успешно импортирована");
+        alert(
+            "Импорт завершён\n\n" +
+            "Добавлено дней: " + added + "\n" +
+            "Обновлено дней: " + updated + "\n" +
+            "Пропущено: " + skipped
+        );
 
         location.reload();
     };
 
     input.click();
 }
+
 if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
         navigator.serviceWorker.register("service-worker.js")
