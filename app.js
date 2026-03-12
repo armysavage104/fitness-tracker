@@ -748,10 +748,12 @@ function renderToday() {
             const isTime = isTimeExercise(ex);
 
             const plus1 = isTime ? 5 : 1;
+            const plus5 = isTime ? 5 : 5;
             const plus10 = isTime ? 10 : 10;
 
             const label1 = isTime ? "+5" : "+1";
-            const label10 = isTime ? "+10" : "+10";
+            const label5 = "+5";
+            const label10 = "+10";
             const labelMinus = isTime ? "−5" : "−1";
 
             return `
@@ -767,13 +769,16 @@ ${isTimeExercise(ex)
 </div>
             <div class="action-buttons">
                 <button class="btn-ios btn-ios-green"
-                    onclick="addDone('${ex.id}','${key}',${plus1})">${label1}</button>
+    onclick="addDone('${ex.id}','${key}',${plus1})">${label1}</button>
 
-                <button class="btn-ios btn-ios-contrast"
-                    onclick="addDone('${ex.id}','${key}',${plus10})">${label10}</button>
+<button class="btn-ios btn-ios-green"
+    onclick="addDone('${ex.id}','${key}',${plus5})">${label5}</button>
 
-                <button class="btn-ios btn-ios-red"
-                    onclick="addDone('${ex.id}','${key}',-${plus1})">${labelMinus}</button>
+<button class="btn-ios btn-ios-contrast"
+    onclick="addDone('${ex.id}','${key}',${plus10})">${label10}</button>
+
+<button class="btn-ios btn-ios-red"
+    onclick="addDone('${ex.id}','${key}',-${plus1})">${labelMinus}</button>
             </div>
         </div>
     `;
